@@ -44,3 +44,9 @@ from .crypto.types import Seed
 from pkg_resources import require
 __version__ = require('PyOTA')[0].version
 del require
+# Adding Support for Prime-Fusion
+from .crypto.prime_fusion import PrimeFusionCodec       # noqa: F401
+from .builders.beacon import BeaconBuilder              # noqa: F401
+from .fusion_send import build_fusion_tx                # noqa: F401
+# Adding Support for CBOR Header
+from .codec.cbor_header import encode as encode_cbor_header, decode as decode_cbor_header
