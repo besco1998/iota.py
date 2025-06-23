@@ -46,12 +46,17 @@ setuptools.setup(
     include_package_data=True,
 
     # http://python-packaging.readthedocs.io/en/latest/command-line-scripts.html#the-console-scripts-entry-point
+    #entry_points={
+    #    'console_scripts': [
+    #        'pyota-cli=iota.bin.repl:main',
+    #    ],
+    #},
     entry_points={
-        'console_scripts': [
-            'pyota-cli=iota.bin.repl:main',
+        "console_scripts": [
+            "iota-fusion-send = iota.cli.fusion_send:main",
         ],
     },
-
+    
     # Tell setuptools which python versions to support. Will include metadata
     # in the built sdist and wheel that tells pypi to tell pip about supported
     # python versions.
