@@ -65,7 +65,10 @@ def build_arg_parser() -> argparse.ArgumentParser:
     g("--cbor", action="store_true",
       help="Compress header with CBOR dictionary")
     g("--dry-run", action="store_true",
-      help="Build packet but do NOT contact a node (prints trytes & exits 0)")      
+      help="Build packet but do NOT contact a node (prints trytes & exits 0)")
+    g("--jwt", help="JWT token if node has REST auth enabled")
+    g("--full", action="store_true",
+      help="Print the entire tryte string in --dry-run (no trailing ellipsis)")        
     return ap
 
 def main(argv: List[str] | None = None) -> None:
@@ -80,12 +83,13 @@ def main(argv: List[str] | None = None) -> None:
 
     header = {}
     if args.json_header and args.header_file:
-        sys.exit("Specify only one of --json-header or --header-file")
+      sys.exit("Specify only one of --json-header or --header-file")
     if args.json_header:
-        header = json.loads(args.json_header)
+      header = json.loads(args.json_header)
     elif args.header_file:
-        header = json.loads(Path(args.header_file).read_text())
-
+      header = json.loads(Path(args.header_file).read_text())
+    if args.jwt:
+      api.adapter.session.headers["Authorization"] = f"Bearer {args.jwt}"
     # ---------------- fusion kwargs
     epoch = int(time.time()) % 256 if args.epoch == "auto" else int(args.epoch)
     fusion_kwargs = dict(
@@ -106,8 +110,11 @@ def main(argv: List[str] | None = None) -> None:
 
     # ---------------- send or dry-run
     if args.dry_run:
-        print("Trytes:", tx.as_tryte_string()[:60], "…")
-        return
+      out = tx.as_tryte_string()
+      if not args.full:
+          out = f"{out[:60]} …"
+      print("Trytes:", out)
+      return
 
     res = api.send_transfer(
         depth=1,

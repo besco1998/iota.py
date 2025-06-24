@@ -19,6 +19,7 @@ def test_cli_mockadapter(tmp_path):
         "--cbor",
         "--dry-run",
         # mock node & seed default
+        "--full",
     ]
     out = subprocess.check_output(cmd, text=True)
     assert out.startswith("Trytes:")

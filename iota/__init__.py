@@ -50,3 +50,5 @@ from .builders.beacon import BeaconBuilder              # noqa: F401
 from .fusion_send import build_fusion_tx                # noqa: F401
 # Adding Support for CBOR Header
 from .codec.cbor_header import encode as encode_cbor_header, decode as decode_cbor_header
+# ---- Prime-Fusion patch: add fusion_kwargs to send_transfer ----
+from .fusion_patch import Iota as _patched  # noqa: F401
