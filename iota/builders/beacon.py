@@ -66,7 +66,7 @@ class BeaconBuilder:
             )
         
         
-        raw = self._payload          # header-less “tx” for our demo
+        raw = header_bytes + self._payload   # <<< include header on wire
 
         if self._fusion:
             trailer = PF.encode(
@@ -74,7 +74,7 @@ class BeaconBuilder:
                 p_root_id   = self._fusion_kwargs.pop("p_root_id"),
                 tip_ids     = self._fusion_kwargs.pop("tip_ids"),
                 session_key = self._fusion_kwargs.pop("session_key"),
-                header_and_payload = header_bytes + raw,
+                header_and_payload = raw,
             )
             raw += trailer                      # append immutably
 
