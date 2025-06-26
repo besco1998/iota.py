@@ -27,6 +27,9 @@ _KDICT: Dict[str, int] = {
     "lon"    : 3,
     "alt"    : 4,
     "sensor" : 5,
+    "state"  : 6,
+    "batt"   : 7,
+    "time"   : 9,
     # add more if you like
 }
 
